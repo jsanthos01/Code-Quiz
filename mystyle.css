@@ -1,0 +1,43 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.container {
+    margin-top: 150px;
+    text-align: center;
+}
+
+#header {
+    text-align: center;
+
+}
+
+h1 {
+    font-family: 'Russo One', sans-serif;
+    font-size: 70px;
+    color: navy;
+    text-transform: uppercase;
+}
+
+#beginQuiz { 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#beginQuiz button {
+    margin-top: 35px;
+} 
+
+#scores {
+    display: inline-flex;
+}
+#timer {
+    display: inline-flex;
+}
+.hide{
+    display:none
+}
