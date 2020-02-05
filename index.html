@@ -18,6 +18,7 @@
         <div id="header">
             <h1>Coding Quiz</h1>
             <h2>Are you ready for a challenge?</h2>
+            <p style="font-size: medium; font-style: italic;">You have 60 minutes to complete 5 questions. If answered wrong, 5 minutes will be deducted from the quiz timer and your points will decrease. Try your best! You got this !!!</p>
             <div id="beginQuiz">
                 <img src="https://media.proprofs.com/images/QM/user_images/1726031/6246983259.png" >
                 <button type="button" id="btnStart" class="btn btn-lg btn-outline-primary">Start Quiz</button>
@@ -26,24 +27,23 @@
 
         <div id="quizContainer" class="subQuiz">
             <div class="row d-flex justify-content-center" >
-                <div class="col-12">
+                <div class="col-12 d-inline-flex">
                     <div id="timer">
                         <h6 id="timer-title">Timer:  </h6>
                         <p id="timeTrack"></p>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12 d-inline-flex">
                     <div id="scores">
                         <h6 id="score-title">Score:  </h6>
-                        <p id="userScore"></p>
+                        <p id="userTracker"></p>
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col-8" style="border: 5px solid black; padding: 35px;">
                     <div id="displayQuestion"></div>
                 </div>
-                <div class="col-12">
+                <div class="col-12" style="padding: 35px;">
                     <div id="message">
-                        <hr>
                     </div>
                 </div>
             </div>
@@ -51,26 +51,44 @@
             
 
         </div>
-        <!-- <div id="answer"></div> -->
+
         <div id="scoreContainer">
-            <h1>Score Board</h1>
-            <p id="scoreBoardText"></p>
+            <h2 class="text-uppercase" style="font-weight: bold; color: blueviolet;">Quiz Completed</h2>
+            <p id="scoreBoardText" style="font-size: 25px;"></p>
             <div id="initials">
-                <form name="myForm"> Initials: 
-                    <input id="inputKey " type="text" name="fname">
+                <form method= "POST" class="form-inline " name="myForm" style="font-size: 20px; justify-content: center">
+                    <label for="initials"> Enter Initials: </label>
+                    <input id="playerInitials" type="text" name="initials" placeholder="J.M"/>
                     <br>
-                    <button type="submit" onclick="formSubmit()" value="Submit" class="btn btn-primary">Submit</button>
+                    <p id="errorMessage"></p>
+                    <button id="submitScoreBtn" type="submit" value="Submit" class="btn btn-primary btn-lg" style="margin: 35px;">Submit</button>
                 </form>
             </div>
         </div>
+
+        <div id="scoreBoard" class="text-center">
+            <h1>Score Board List</h1>
+            <div class="col">
+                <div class="row">
+                    <div class="col-6">
+                        <p id="userInitials"></p>
+                    </div>
+                    <div class="col-6">
+                        <p id="userScore"></p>                    
+                    </div>
+                </div>
+            </div>  
+        </div>
     </div>
-<!-- //---container -->
+
+
+
+
+
+
 
     <!-- Javascript -->
     <script src="script.js"></script>
-
-
-
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

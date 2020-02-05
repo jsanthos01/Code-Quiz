@@ -1,22 +1,36 @@
+//Header Section -> Main Page
 let header = document.getElementById("header");
 let startButton = document.getElementById("btnStart");
 
+//Quiz Container -> Second Page 
 let quizContainer = document.querySelector("#quiz-container");
 let questionsDisplayed = document.getElementById("displayQuestion");
-let scoreTracker = document.querySelector("#userScore");
+let scoreTracker = document.querySelector("#userTracker");
 let timerDisplay = document.querySelector("#timeTrack");
 let displayMessage = document.querySelector("#message");
-var qIndex = 0; // current index
 
+//Score Section -> Third Page
 let scoreContainer = document.getElementById("scoreContainer");
-var subEl = document.querySelector(".subQuiz")
-subEl.classList.add('hide');
-scoreContainer.classList.add('hide');
+let submitScoreBtn = document.getElementById("submitScoreBtn");
+var subEl = document.querySelector(".subQuiz");
+
+// Score Board Local Storage Section -> Fourth Page
+let finalScoreBoard = document.getElementById("scoreBoard");
+let errorMessage = document.getElementById("errorMessage");
+let playerInitials = document.querySelector("#playerInitials");
+let storeUserInitials = document.querySelector("#userInitials");
+let storeUserScore = document.getElementById("userScore");
 
 let secondsLeft = 60;
-let score = 0;
 var timerInterval;
-//Question and Answer is displayed as an array of Objects
+let score = 10;
+var qIndex = 0; // current index
+
+//Hide Quiz Section and Score Section
+subEl.classList.add('hide'); 
+scoreContainer.classList.add('hide');
+finalScoreBoard.classList.add('hide');
+
 const questionsObj = [
     {
         question: " Q1: What does HTML stand for?",
@@ -42,10 +56,9 @@ const questionsObj = [
     {
         question:"Q3: Which HTML attribute is used to define inline styles?",
         answer: {
-            //how to make the tag a text?
             a: "font",
             b: "style",
-            c: "class" //Correct Answer
+            c: "class" 
         },
         correctAnswer: "style"
 
@@ -74,11 +87,16 @@ const questionsObj = [
     }
 ]
 
+//Locally store questions, retrieve them and change it to objects
+localStorage.setItem("questionsObj", JSON.stringify(questionsObj));
+var mainQuestions = localStorage.getItem("questionsObj");
+mainQuestions = JSON.parse(mainQuestions);
+
+
 // Start Button 
 startButton.addEventListener( "click", startQuiz);
-
 function startQuiz() {
-    header.style.display = "none";
+    header.classList.add('hide');
     subEl.classList.remove('hide');
     quizTimer();
     showQuestions(qIndex);
@@ -106,11 +124,11 @@ function checkAnswer (event,i) {
         scoreTracker.textContent = score;
         wrongAnswer();
     }
-    
+    // before going to the next question ,check if it is the last one
     if(qIndex == 4){
         checkScore(score);
         scoreTracker.textContent = score;
-        endQuiz();
+        return endQuiz();
     }
 
     qIndex++;
@@ -130,6 +148,7 @@ function correctAnswer (){
     displayMessage.innerHTML = '';
     var message = document.createElement("P");
     message.textContent = "Correct Answer!";
+    message.setAttribute("style","color: green; font-size: 20px; font-weight: bold;");
     displayMessage.appendChild(message);  
 }
 
@@ -137,6 +156,7 @@ function correctAnswer (){
     displayMessage.innerHTML = '';
     var message = document.createElement("P");
     message.textContent = "Wrong Answer!";
+    message.setAttribute("style","color: red; font-size: 20px; font-weight: bold;");
     displayMessage.appendChild(message); 
 }
 
@@ -147,6 +167,7 @@ function endQuiz(){
     scoreBoard();
 
 }
+
 function quizTimer(){
     timerInterval = setInterval( function(){
         if (secondsLeft == 0){
@@ -163,5 +184,32 @@ function scoreBoard() {
     totalScore.textContent = `Your total score is ${score}.`;
 }
 
-//Local Storage 
-localStorage.setItem()
+function errorMsgDisplay(){
+    errorMessage.textContent = "Please state your initials in the box.";
+}
+
+submitScoreBtn.addEventListener("click", function (event){
+    event.preventDefault();
+    scoreContainer.classList.add('hide');
+    finalScoreBoard.classList.remove('hide');
+
+    var playerInfo = {
+        playerName: playerInitials.value, //J.S
+        playerScore: score
+
+    };
+
+    if(playerInfo.playerName == ""){
+        errorMsgDisplay();
+    } else {
+        localStorage.setItem("playerInfo",JSON.stringify(playerInfo));
+        var player = localStorage.getItem("playerInfo");
+        
+        player = JSON.parse(player);
+        console.log(player.playerScore.toString());
+        var stringScore = player.playerScore.toString();
+        storeUserInitials.innerHTML = player.playerName;
+        storeUserScore.innerHTML = stringScore;
+    }
+    
+});
