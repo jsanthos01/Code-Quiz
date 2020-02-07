@@ -95,6 +95,8 @@ mainQuestions = JSON.parse(mainQuestions);
 
 // Start Button 
 startButton.addEventListener( "click", startQuiz);
+
+
 function startQuiz() {
     header.classList.add('hide');
     subEl.classList.remove('hide');
@@ -210,6 +212,7 @@ submitScoreBtn.addEventListener("click", function (event){
         var stringScore = player.playerScore.toString();
         storeUserInitials.innerHTML = player.playerName;
         storeUserScore.innerHTML = stringScore;
+        
     }
     
 });
