@@ -1,6 +1,8 @@
 //Header Section -> Main Page
 let header = document.getElementById("header");
 let startButton = document.getElementById("btnStart");
+let instructionsBtn = document.getElementById("instructionsBtn");
+let instructionCard  = document.querySelector("#instructionsCard")
 
 //Quiz Container -> Second Page 
 let quizContainer = document.querySelector("#quiz-container");
@@ -16,7 +18,7 @@ var subEl = document.querySelector(".subQuiz");
 
 // Score Board Local Storage Section -> Fourth Page
 let finalScoreBoard = document.getElementById("scoreBoard");
-let errorMessage = document.getElementById("errorMessage");
+let errorMessage = document.querySelector("#errorMessage");
 let playerInitials = document.querySelector("#playerInitials");
 let storeUserInitials = document.querySelector("#userInitials");
 let storeUserScore = document.getElementById("userScore");
@@ -26,21 +28,32 @@ var timerInterval;
 let score = 10;
 var qIndex = 0; // current index
 
+let playerInfoArr = [];
+
 //Hide Quiz Section and Score Section
 subEl.classList.add('hide'); 
 scoreContainer.classList.add('hide');
 finalScoreBoard.classList.add('hide');
+instructionCard.classList.add('hide');
+
+
+instructionsBtn.addEventListener("click", function(){
+    instructionCard.classList.remove("hide")
+});
+
+function hideinstructionsCard(){
+    instructionCard.classList.add("hide")
+}
 
 const questionsObj = [
     {
         question: " Q1: What does HTML stand for?",
         answer: {
-            a: "Hyperlinks and Text Markup Language", //Correct Answer
-            b: "Hyper Text Markup Language",
-            c: "Hyperlinks Tool Maker Language",
-            
+            a: "Hyperlinks and Text Markup Language",
+            b: "Hypertext Markup Language", //Correct Answer
+            c: "Hyperlinks Tool Maker Language"
         },
-        correctAnswer: "Hyperlinks and Text Markup Language"
+        correctAnswer: "Hypertext Markup Language"
     },
 
     {
@@ -61,7 +74,6 @@ const questionsObj = [
             c: "class" 
         },
         correctAnswer: "style"
-
     },
 
     {
@@ -72,7 +84,6 @@ const questionsObj = [
             c: "/* this is a comment*/"
         },
         correctAnswer: "/* this is a comment*/"
-
     },
 
     {
@@ -83,7 +94,6 @@ const questionsObj = [
             c: "function = myFunction()"
         },
         correctAnswer: "function myFunction()"
-
     }
 ]
 
@@ -96,21 +106,22 @@ mainQuestions = JSON.parse(mainQuestions);
 // Start Button 
 startButton.addEventListener( "click", startQuiz);
 
-
 function startQuiz() {
     header.classList.add('hide');
+    instructionCard.classList.add('hide');
     subEl.classList.remove('hide');
     quizTimer();
+    scoreTracker.textContent = score;
     showQuestions(qIndex);
-    
 }
 
 function showQuestions(i) {
-    questionsDisplayed.innerHTML = `<form><h4>${questionsObj[i].question}</h4>
-                                <div class="multipleChoice"><button type="button" class="btn btn-primary  btn-lg btn-block mb-3 pr-5 pl-5" onclick="checkAnswer(this,${i})">${questionsObj[i].answer.a}</button></div>
-                                <div class="multipleChoice"><button type="button" class="btn btn-primary  btn-lg btn-block mb-3 pr-5 pl-5" onclick="checkAnswer(this,${i})">${questionsObj[i].answer.b}</button></div>
-                                <div class="multipleChoice"><button type="button" class="btn btn-primary  btn-lg btn-block mb-3 pr-5 pl-5" onclick="checkAnswer(this,${i})">${questionsObj[i].answer.c}</button></div>
-                         </form>`;
+    questionsDisplayed.innerHTML = 
+    `<form><h4>${questionsObj[i].question}</h4>
+        <div class="multipleChoice"><button type="button" class="btn btn-primary  btn-lg btn-block mb-3 pr-5 pl-5" onclick="checkAnswer(this,${i})">${questionsObj[i].answer.a}</button></div>
+        <div class="multipleChoice"><button type="button" class="btn btn-primary  btn-lg btn-block mb-3 pr-5 pl-5" onclick="checkAnswer(this,${i})">${questionsObj[i].answer.b}</button></div>
+        <div class="multipleChoice"><button type="button" class="btn btn-primary  btn-lg btn-block mb-3 pr-5 pl-5" onclick="checkAnswer(this,${i})">${questionsObj[i].answer.c}</button></div>
+    </form>`;
 }
 
 function checkAnswer (event,i) {
@@ -150,15 +161,15 @@ function correctAnswer (){
     displayMessage.innerHTML = '';
     var message = document.createElement("P");
     message.textContent = "Correct Answer!";
-    message.setAttribute("style","color: green; font-size: 20px; font-weight: bold;");
+    message.setAttribute("style","color: #22cc00; font-size: 20px; font-weight: bold;");
     displayMessage.appendChild(message);  
 }
 
- function wrongAnswer(){
+function wrongAnswer(){
     displayMessage.innerHTML = '';
     var message = document.createElement("P");
     message.textContent = "Wrong Answer!";
-    message.setAttribute("style","color: red; font-size: 20px; font-weight: bold;");
+    message.setAttribute("style","color: #ff002b; font-size: 20px; font-weight: bold;");
     displayMessage.appendChild(message); 
 }
 
@@ -194,25 +205,64 @@ submitScoreBtn.addEventListener("click", function (event){
     event.preventDefault();
     scoreContainer.classList.add('hide');
     finalScoreBoard.classList.remove('hide');
-
-    var playerInfo = {
+    let playerInfo = {
         playerName: playerInitials.value, //J.S
         playerScore: score
-
     };
 
     if(playerInfo.playerName == ""){
         errorMsgDisplay();
     } else {
-        localStorage.setItem("playerInfo",JSON.stringify(playerInfo));
-        var player = localStorage.getItem("playerInfo");
+
+        if( localStorage.playerInfo != null){
         
-        player = JSON.parse(player);
-        console.log(player.playerScore.toString());
-        var stringScore = player.playerScore.toString();
-        storeUserInitials.innerHTML = player.playerName;
-        storeUserScore.innerHTML = stringScore;
+            let player = JSON.parse(localStorage.getItem("playerInfo"));
+            console.log(player);
         
+            playerInfoArr = player;
+            
+            console.log("PLAYERINFO ARRAY EXISTING STUFF");
+            console.log(playerInfoArr);
+            playerInfoArr.push(playerInfo);
+            
+            console.log("PLAYERINFO ARRAY new STUFF");
+            console.log(playerInfoArr);
+            localStorage.setItem("playerInfo",JSON.stringify(playerInfoArr));
+            player = JSON.parse(localStorage.getItem("playerInfo"));
+        
+            player.forEach((info) => {
+                console.log("Inside the forEach Function")
+                console.log(info.playerScore);
+
+                //appending initials
+                var initialsTag = document.createElement("P");
+                var initialsText = document.createTextNode(info.playerName);
+                initialsTag.appendChild(initialsText);
+                storeUserInitials.appendChild(initialsTag);
+
+                //appending score for each player
+                var scoreTag = document.createElement("P");
+                var scoreText = document.createTextNode(info.playerScore);
+                scoreTag.appendChild(scoreText);
+                storeUserScore.appendChild(scoreTag);
+            });
+            
+        }else {
+            playerInfoArr.push(playerInfo);
+
+            console.log(playerInfoArr);
+            localStorage.setItem("playerInfo",JSON.stringify(playerInfoArr));
+            let player = JSON.parse(localStorage.getItem("playerInfo"));
+
+            console.log(player);
+
+            player.forEach((info) => {
+                console.log("Inside the forEach Function")
+                console.log(info.playerScore);
+                storeUserInitials.innerHTML = info.playerName;
+                storeUserScore.innerHTML = info.playerScore;
+            });
+        }
     }
-    
 });
+

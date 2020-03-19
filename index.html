@@ -4,26 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Josefin+Slab:700|Russo+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Karla|Londrina+Outline|Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
     <!-- Link to CSS -->
     <link rel="stylesheet" href="mystyle.css">
     <title>Code Quiz</title>
 
 </head>
-<body>
+<body>    
    <div class="container"> 
         <div id="header">
             <h1>Coding Quiz</h1>
             <h2>Are you ready for a challenge?</h2>
-            <p style="font-size: medium; font-style: italic;">You have 60 minutes to complete 5 questions. If answered wrong, 5 minutes will be deducted from the quiz timer and your points will decrease. Try your best! You got this !!!</p>
             <div id="beginQuiz">
-                <img src="https://media.proprofs.com/images/QM/user_images/1726031/6246983259.png" >
+                <img src="exam.png" class="img-fluid">
                 <button type="button" id="btnStart" class="btn btn-lg btn-outline-primary">Start Quiz</button>
+                <button type="button" id="instructionsBtn" class="btn btn-lg btn-outline-primary">View Instructions</button>
             </div>
         </div> 
+
+        <div class="instructions container mt-4 hide" id="instructionsCard">
+            <div class="card card-body ">
+                <div class="card-body text-right disableCrossBtn">
+                    <i class="fa fa-times" style="color: #374785" onClick="hideinstructionsCard()" aria-hidden="true"></i>
+                </div>
+                <div class="card-body">
+                    <img src="girl.png" alt="" class="avatar">
+                    <h2 class="instructions-title"><i class="fas fa-chalkboard-teacher"></i>Instructions</h2>
+                    <div class="instructions-txt card-text" >
+                        <p>You have <b>60 minutes</b> to complete <b>5 questions</b>.</p>
+                        <p>To start off, you have <b>10 points</b>.</p>
+                        <p>If a question is answered wrong, <b>5 minutes</b> will be <b>deducted</b> from the quiz timer and your points will decrease.</p>
+                        <p>Try your best! You got this !!!</p>   
+                        <img src="stopwatch.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>            
 
         <div id="quizContainer" class="subQuiz">
             <div class="row d-flex justify-content-center" >
@@ -35,26 +53,23 @@
                 </div>
                 <div class="col-12 d-inline-flex">
                     <div id="scores">
-                        <h6 id="score-title">Score:  </h6>
+                        <h6 id="score-title">Score: </h6>
                         <p id="userTracker"></p>
                     </div>
                 </div>
-                <div class="col-8" style="border: 5px solid black; padding: 35px;">
+                <div class="col-8 questionBox">
                     <div id="displayQuestion"></div>
                 </div>
-                <div class="col-12" style="padding: 35px;">
+                <div class="col-12" style="padding:50px;">
                     <div id="message">
                     </div>
                 </div>
             </div>
-            
-            
-
         </div>
 
         <div id="scoreContainer">
-            <h2 class="text-uppercase" style="font-weight: bold; color: blueviolet;">Quiz Completed</h2>
-            <p id="scoreBoardText" style="font-size: 25px;"></p>
+            <h1 class="text-uppercase">Quiz Completed!!</h1>
+            <p id="scoreBoardText"></p>
             <div id="initials">
                 <form method= "POST" class="form-inline " name="myForm" style="font-size: 20px; justify-content: center">
                     <label for="initials"> Enter Initials: </label>
@@ -69,23 +84,15 @@
         <div id="scoreBoard" class="text-center">
             <h1>Score Board List</h1>
             <div class="col">
-                <div class="row">
-                    <div class="col-6">
-                        <p id="userInitials"></p>
+                <div class="row scoreInfo">
+                    <div class="col-6 " id="userInitials">
                     </div>
-                    <div class="col-6">
-                        <p id="userScore"></p>                    
+                    <div class="col-6" id="userScore">
                     </div>
                 </div>
             </div>  
         </div>
     </div>
-
-
-
-
-
-
 
     <!-- Javascript -->
     <script src="script.js"></script>
